@@ -1,1 +1,113 @@
 # Punch_meme
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Punch Game</title>
+    <link rel="stylesheet" href="index.css">
+       <script src="https://unpkg.com/vue@2.6.11/dist/vue.js"></script>
+  </head>
+  <body>
+
+
+    
+    <div id="container">
+      
+      <h1>Punch Now!</h1>
+      
+      <div id="bag" @click="punch" v-bind:class="{burst:ended}"></div>
+      
+      <div id="bagHealth">
+        <div v-bind:style="{width:health + '%'}"></div>
+      </div>
+      
+      <div class="controls">
+        <button @click="restart">Restart</button>
+        
+        <audio loop id="win" src="Man Male Screaming 02 Sound Effect.mp3"></audio>
+        
+        <audio id="punched" src="soundeffects_PUNCH.mp3"></audio>
+      </div>
+      
+    </div>
+    
+	<style>
+    
+
+#container{
+  background-image: url("gym1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+
+	#container{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  #bag{
+    width: 80%;
+    height: 100%;
+    background: url("bag.png") center no-repeat;
+    transform: scale(1);
+  }
+  #bag:active{
+    transform: scale(0.98);
+  }
+  #bag.burst{
+    background:url("bag-burst.png") center no-repeat;
+  }
+  #bagHealth{
+    width: 200px;
+    border:solid 1px black;
+    margin-bottom: 20px;
+  }
+  #bagHealth div{
+    height: 20px;
+    background: red;
+  }
+	
+	</style>
+	
+	
+	
+    <script src="index.js">
+	
+	var win = document.querySelector('#win');
+var punched = document.querySelector('#punched');
+
+
+new Vue({
+  el:'#container',
+  data:{
+    health:100,
+    ended:false,
+    
+  },
+  methods:{
+    punch:function(){
+      this.health -= 20;
+      punched.play();
+      if(this.health <= 0){
+        this.ended = true;
+        win.play();
+      }
+    },
+    restart:function(){
+      this.health = 100;
+      this.ended = false;
+      win.pause();
+      punched.pause();
+    }
+  }
+})
+	</script>
+  </body>
+</html>
